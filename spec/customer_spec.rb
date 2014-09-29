@@ -20,8 +20,8 @@ describe Customer do
 		expect(customer.number="1234").to eq("1234")
 	end
 
-	it 'should be able to calculate the time' do
-		expect(customer.time).to eq(Time.new.strftime("%H:%M"))
+	it 'should be able to calculate the delivery time' do
+		expect(customer.get_delivery_time).to eq("#{Time.new.strftime("%H").to_i+1}:#{Time.new.strftime("%M")}")
 	end
 
 	it 'should be able to send a text when confirming an order' do

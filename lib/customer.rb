@@ -8,7 +8,12 @@ class Customer
 	def initialize(name="Steve", number="+447957196965")
 		@name = name
 		@number = number
-		@time = Time.new.strftime("%H:%M")
+	end
+
+	def get_delivery_time
+		@time_hour = Time.new.strftime("%H").to_i+1
+		@time_minute = Time.new.strftime("%M")
+		@time_now = "#{@time_hour}:#{@time_minute}"
 	end
 
 	def confirm_order
@@ -18,7 +23,7 @@ class Customer
 		@client.messages.create(
 		  from: '+441749200123',
 		  to: @number,
-		  body: "Thank you #{@name} for your order. It will be delivered before #{@time.hour+1}:#{@time.strftime("%M")}"
+		  body: "Thank you #{@name} for your order. It will be delivered before #{get_delivery_time}"
 		)
 	end
 

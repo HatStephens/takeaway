@@ -7,18 +7,22 @@ class PlaceOrder
 	attr_reader :final_order, :customer_total, :total_cost, :calculate_total_cost
 	attr_writer :total_cost, :customer_total
 
-	def initialize
+	def initialize(line_items)
 		@final_order = []
 		@total_cost = 0
 		@customer_total = 0
+		receive_line_items(line_items)
+		get_total_from_customer(line_items)
 	end
 
 	def receive_line_items(line_items)
 		@final_order << line_items.line_item_list
+		calculate_total_cost
 	end
 
 	def calculate_total_cost
-		@final_order.each_with_index { |element, index| @total_cost += @final_order[index][index][2].to_i }
+		@final_order.flatten!(1)
+		@final_order.each_with_index { |element, index| @total_cost += @final_order[index][2].to_i }
 		@total_cost
 	end
 
@@ -27,7 +31,7 @@ class PlaceOrder
 	end
 
 	def is_total_correct?
-		calculate_total_cost == @customer_total
+		@total_cost == @customer_total
 	end
 
 	def send_food(customer)
