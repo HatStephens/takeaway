@@ -17,12 +17,12 @@ describe PlaceOrder do
 	end
 
 	it 'should request the total cost from the customer via the line items' do
-		allow(line_items).to receive(:calculate_total_cost).and_return(20)
+		allow(line_items).to receive(:total_cost_from_customer).and_return(20)
 		expect(place_order.get_total_from_customer(line_items)).to eq(20)
 	end
 
 	it 'should check that the total cost is correct' do
-		allow(line_items).to receive(:calculate_total_cost).and_return(0)
+		allow(line_items).to receive(:total_cost_from_customer).and_return(0)
 		expect(place_order.is_total_correct?).to eq(true)
 	end
 
@@ -38,14 +38,14 @@ describe PlaceOrder do
 	end
 
 	it 'should raise a Range Error if the total costs do not match' do
-		allow(line_items).to receive(:calculate_total_cost).and_return(10)
+		allow(line_items).to receive(:total_cost_from_customer).and_return(10)
 		place_order.get_total_from_customer(line_items)
 		place_order.total_cost=5
 		expect{place_order.send_food(customer)}.to raise_error("You have not provided the correct amount. Sorry, no food for you.")
 	end
 
 	it 'should send a text if it decides to send the food' do
-		allow(line_items).to receive(:calculate_total_cost).and_return(10)
+		allow(line_items).to receive(:total_cost_from_customer).and_return(10)
 		place_order.get_total_from_customer(line_items)
 		place_order.total_cost=10
 		allow(customer).to receive(:confirm_order).and_return(true)

@@ -12,7 +12,7 @@ describe LineItem do
 
 	it 'should request the total cost from customer' do
 		line_item.request_total_cost=(30)
-		expect(line_item.total_cost).to eq(30)
+		expect(line_item.total_cost_from_customer).to eq(30)
 	end
 
 end

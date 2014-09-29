@@ -3,11 +3,11 @@ require_relative 'dish'
 
 class LineItem
 
-	attr_reader :line_item_list, :total_cost
+	attr_reader :line_item_list, :total_cost_from_customer
 
 	def initialize
 		@line_item_list = []
-		@total_cost = 0
+		@total_cost_from_customer = 0
 	end
 
 	def add_order(dish, quantity)
@@ -15,7 +15,7 @@ class LineItem
 	end
 
 	def request_total_cost=(amount)
-		@total_cost = amount
+		@total_cost_from_customer = amount
 	end
 
 end

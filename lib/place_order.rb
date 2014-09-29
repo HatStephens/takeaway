@@ -4,7 +4,7 @@ require_relative 'customer'
 class PlaceOrder
 	include Twilio
 
-	attr_reader :final_order, :check_total, :get_total_from_customer, :total_cost
+	attr_reader :final_order, :customer_total, :total_cost, :calculate_total_cost
 	attr_writer :total_cost, :customer_total
 
 	def initialize
@@ -18,17 +18,16 @@ class PlaceOrder
 	end
 
 	def calculate_total_cost
-		@final_order.each_with_index { |element, index| @total_cost += @final_order[index][2].to_i }
+		@final_order.each_with_index { |element, index| @total_cost += @final_order[index][index][2].to_i }
 		@total_cost
 	end
 
 	def get_total_from_customer(line_items)
-		@customer_total = line_items.calculate_total_cost
-
+		@customer_total = line_items.total_cost_from_customer
 	end
 
 	def is_total_correct?
-		@total_cost == @customer_total
+		calculate_total_cost == @customer_total
 	end
 
 	def send_food(customer)
@@ -36,6 +35,5 @@ class PlaceOrder
 		return customer.confirm_order if is_total_correct?
 		raise RangeError.new ("You have not provided the correct amount. Sorry, no food for you.")
 	end
-
 
 end
