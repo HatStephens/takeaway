@@ -1,3 +1,4 @@
+
 require 'customer'
 
 describe Customer do

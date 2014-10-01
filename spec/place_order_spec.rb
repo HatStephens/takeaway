@@ -13,8 +13,13 @@ describe PlaceOrder do
 	end
 
 	it 'should calculate the total cost' do
-		allow(line_items).to receive(:total_cost_from_customer).and_return(0)
-		expect(place_order.calculate_total_cost).to eq(0)
+		expect(line_items).to receive(:total_cost_from_customer)
+		place_order.calculate_total_cost
+	end
+
+	it "should return the valie of the total cost from the customer" do
+		allow(line_items).to receive(:total_cost_from_customer).and_return(15)
+		expect(place_order.calculate_total_cost).to eq 15
 	end
 
 	it 'should request the total cost from the customer via the line items' do
